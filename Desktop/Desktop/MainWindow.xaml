@@ -1,0 +1,41 @@
+﻿<Window x:Class="Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Desktop"
+        xmlns:model="clr-namespace:OnlineCinema.Models"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
+    <Window.Resources>
+        <local:ViewModel x:Key="View"/>
+        <local:Convertable x:Key="Convert"/>
+    </Window.Resources>
+    <Grid>
+        <Grid Background="Coral">
+            <ListBox Name="item">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="0,0,0,0" FontSize="18" Text="{Binding Path=Name}">
+                                
+                            </TextBlock>
+                            <TextBox Width="100" Margin="10,0,0,0" FontSize="18" Name="Count"></TextBox>
+                            <Button Content="Заказать" Margin="10,0,0,0" 
+                                    Tag="{Binding Path=Id}"
+                                    Command="{Binding Query, Source={StaticResource View}}" >
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource Convert}">
+                                        <Binding ElementName="Count" Path="Text"/>
+                                        <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+</Window>
